@@ -12,12 +12,14 @@
   "staticPath": "public",
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "parcel-bundler": "^1.10.3",
     "parcel-plugin-static-files-copy": "^1.2.4"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "js-data": "^3.0.4",
     "js-data-http": "^3.0.1",
     "react": "^16.5.2",
