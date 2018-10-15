@@ -23,14 +23,25 @@ const group = (store) =>
       },
       find: {
         query: (args) => gql`
-          query {
-            group(id: ${args.id}) {
+          query group($id: ID!) {
+            group(id: $id) {
               id
               name
             }
           }
         `,
         transform: (data) => data.group,
+      },
+      update: {
+        query: (args) => gql`
+          mutation updateGroup($id: ID!, $name: String) {
+            updateGroup(id: $id, name: $name) {
+              id
+              name
+            }
+          }
+        `,
+        transform: (data) => data.updateGroup,
       },
     },
   });

@@ -29,7 +29,21 @@ export class GraphQLAdapter extends HttpAdapter {
     if (typeof query === 'string' || typeof query === 'number') {
       args.id = query;
     }
-    const data = await request(this.graphqlPath, print(find.query(args)));
+    const data = await request(this.graphqlPath, print(find.query(args)), args);
     return _transform(find.transform, data);
+  }
+
+  async update(mapper, id, props, opts) {
+    const update = get(mapper, 'graphql.update', null);
+    if (update == null) {
+      return super.update(mapper, id, props, opts);
+    }
+    const args = { ...props, id };
+    const data = await request(
+      this.graphqlPath,
+      print(update.query(args)),
+      args,
+    );
+    return _transform(update.transform, data);
   }
 }
