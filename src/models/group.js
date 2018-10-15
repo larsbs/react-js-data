@@ -32,6 +32,17 @@ const group = (store) =>
         `,
         transform: (data) => data.group,
       },
+      create: {
+        query: (args) => gql`
+          mutation createGroup($name: String) {
+            createGroup(name: $name) {
+              id
+              name
+            }
+          }
+        `,
+        transform: (data) => data.createGroup,
+      },
       update: {
         query: (args) => gql`
           mutation updateGroup($id: ID!, $name: String) {
