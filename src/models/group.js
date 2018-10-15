@@ -5,8 +5,8 @@ const group = (store) =>
     endpoint: 'group',
     schema: {
       properties: {
-        id: { type: 'number' },
-        name: { type: 'string', track: true },
+        id: { type: ['number', 'string'] },
+        name: { type: 'string' },
       },
     },
     graphql: {

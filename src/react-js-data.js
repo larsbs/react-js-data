@@ -50,7 +50,7 @@ export function withData(kwargs) {
 
       async _handleSubscribe() {
         const { store } = this.props;
-        this.setState({ modelData: await model(store) });
+        this.setState({ modelData: await model(store, this.props) });
       }
     }
 
