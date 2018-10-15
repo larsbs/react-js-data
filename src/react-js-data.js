@@ -15,10 +15,8 @@ export function withData(kwargs) {
         this.setState({ loading: false });
         const { store } = this.props;
         const modelData = await model(store);
-        store.on('add', async () =>
-          this.setState({
-            modelData: await model(store),
-          }),
+        store.subscribe(async () =>
+          this.setState({ modelData: await model(store) }),
         );
         this.setState({
           loading: false,
