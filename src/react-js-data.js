@@ -11,24 +11,33 @@ export function withData(kwargs) {
         modelData: null,
       };
 
+      constructor(props) {
+        super(props);
+        this._handleSubscribe = this._handleSubscribe.bind(this);
+      }
+
       async componentDidMount() {
-        this.setState({ loading: false });
+        this.setState({ loading: true });
         const { store } = this.props;
-        const modelData = await model(store);
-        store.subscribe(async () =>
-          this.setState({ modelData: await model(store) }),
-        );
+        const modelData = await model(store, this.props);
+        store.subscribe(this._handleSubscribe);
         this.setState({
           loading: false,
           modelData,
         });
       }
 
+      componentWillUnmount() {
+        const { store } = this.props;
+        store.unsubscribe(this._handleSubscribe);
+      }
+
       render() {
         const { store } = this.props;
         const { loading, modelData } = this.state;
         const data = { [name]: modelData };
-        const bindedActions = actions(store);
+        const bindedActions =
+          typeof actions === 'function' ? actions(store) : {};
         return (
           <WrappedComponent
             {...this.props}
@@ -37,6 +46,11 @@ export function withData(kwargs) {
             actions={bindedActions}
           />
         );
+      }
+
+      async _handleSubscribe() {
+        const { store } = this.props;
+        this.setState({ modelData: await model(store) });
       }
     }
 

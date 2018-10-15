@@ -30,6 +30,7 @@
     "js-data-http": "^3.0.1",
     "lodash": "^4.17.11",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^4.3.1"
   }
 }

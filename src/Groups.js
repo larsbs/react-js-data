@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import { withData } from './react-js-data';
 
 class Groups extends Component {
@@ -7,7 +9,7 @@ class Groups extends Component {
   };
 
   render() {
-    const { groups, loading, actions = {} } = this.props;
+    const { groups, loading, actions } = this.props;
     const { name } = this.state;
     const { createGroup, updateGroup, deleteGroup } = actions;
     if (loading) {
@@ -16,6 +18,14 @@ class Groups extends Component {
     return (
       <div>
         <h1>Groups</h1>
+        <ul>
+          {groups &&
+            groups.map((group) => (
+              <li key={group.id}>
+                <Link to={`/group/${group.id}`}>{group.name}</Link>
+              </li>
+            ))}
+        </ul>
         <pre>{JSON.stringify(groups, null, 2)}</pre>
         <button onClick={() => createGroup({ name })}>Create Group</button>
         <input

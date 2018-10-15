@@ -16,6 +16,12 @@ class ObservableDataStore extends DataStore {
     this._subscribeListeners.push(listener);
   }
 
+  unsubscribe(listener) {
+    this._subscribeListeners = this._subscribeListeners.filter(
+      (l) => l !== listener,
+    );
+  }
+
   _callListeners(...args) {
     this._subscribeListeners.forEach((listener) => listener(...args));
   }

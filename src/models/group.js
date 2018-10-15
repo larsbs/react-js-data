@@ -21,6 +21,17 @@ const group = (store) =>
         `,
         transform: (data) => data.groups,
       },
+      find: {
+        query: (args) => gql`
+          query {
+            group(id: ${args.id}) {
+              id
+              name
+            }
+          }
+        `,
+        transform: (data) => data.group,
+      },
     },
   });
 
