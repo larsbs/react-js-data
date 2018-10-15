@@ -43,6 +43,17 @@ const group = (store) =>
         `,
         transform: (data) => data.updateGroup,
       },
+      destroy: {
+        query: (args) => gql`
+          mutation deleteGroup($id: ID!) {
+            deleteGroup(id: $id) {
+              id
+              name
+            }
+          }
+        `,
+        transform: (data) => data.deleteGroup,
+      },
     },
   });
 

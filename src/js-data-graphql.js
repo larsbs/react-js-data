@@ -46,4 +46,18 @@ export class GraphQLAdapter extends HttpAdapter {
     );
     return _transform(update.transform, data);
   }
+
+  async destroy(mapper, id, opts) {
+    const destroy = get(mapper, 'graphql.destroy', null);
+    if (destroy == null) {
+      return super.destroy(mapper, id, opts);
+    }
+    const args = { id };
+    const data = await request(
+      this.graphqlPath,
+      print(destroy.query(args)),
+      args,
+    );
+    return _transform(destroy.transform, data);
+  }
 }
