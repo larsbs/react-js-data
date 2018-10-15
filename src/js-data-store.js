@@ -1,6 +1,6 @@
 import { DataStore } from 'js-data';
-import { HttpAdapter } from 'js-data-http';
 
+import { GraphQLAdapter } from './js-data-graphql';
 import group from './models/group';
 
 class ObservableDataStore extends DataStore {
@@ -27,8 +27,9 @@ class ObservableDataStore extends DataStore {
 }
 
 const store = new ObservableDataStore();
-const adapter = new HttpAdapter({
-  basePath: 'https://yk9mo9r44v.sse.codesandbox.io/api',
+const adapter = new GraphQLAdapter({
+  basePath: 'http://localhost:5000/api',
+  graphqlPath: 'http://localhost:5000/graphql',
 });
 
 store.registerAdapter('http', adapter, { default: true });

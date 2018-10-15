@@ -13,7 +13,6 @@ class Groups extends Component {
     if (loading) {
       return 'Loading...';
     }
-    console.log('re-render');
     return (
       <div>
         <h1>Groups</h1>
