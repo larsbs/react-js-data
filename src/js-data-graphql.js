@@ -11,9 +11,11 @@ function _transform(transform, data) {
 
 export class GraphQLAdapter extends HttpAdapter {
   async _find(mapper, query, opts) {
-    console.log('graphql find');
     const find = get(mapper, 'graphql.find', null);
     const args = { ...query };
+    if (find == null) {
+      return super._find(mapper, query, opts);
+    }
     if (typeof query === 'string' || typeof query === 'number') {
       args.id = query;
     }
@@ -29,23 +31,6 @@ export class GraphQLAdapter extends HttpAdapter {
     const args = {};
     const data = await request(this.graphqlPath, print(findAll.query(args)));
     return _transform(findAll.transform, data);
-  }
-
-  async find(mapper, query, opts) {
-    return super.find(mapper, query, opts);
-    // const find = get(mapper, 'graphql.find', null);
-    // if (find == null) {
-    //   return super.find(mapper, query, opts);
-    // }
-    // if (query == null) {
-    //   return this.findAll(mapper, query, opts);
-    // }
-    // const args = { ...query };
-    // if (typeof query === 'string' || typeof query === 'number') {
-    //   args.id = query;
-    // }
-    // const data = await request(this.graphqlPath, print(find.query(args)), args);
-    // return _transform(find.transform, data);
   }
 
   async create(mapper, props, opts) {
