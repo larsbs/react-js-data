@@ -43,7 +43,7 @@ class Groups extends Component {
 
 export default withData({
   name: 'groups',
-  model: async (store) => await store.findAll('group'),
+  model: async (store) => await store.find('group'),
   actions: (store) => ({
     createGroup: (args) => {
       const newGroup = store.createRecord('group', args);

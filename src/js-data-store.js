@@ -38,7 +38,7 @@ const adapter = new GraphQLAdapter({
   graphqlPath: 'http://localhost:5000/graphql',
 });
 
-store.registerAdapter('http', adapter, { default: true });
+store.registerAdapter('graphql', adapter, { default: true });
 
 group(store);
 
