@@ -2,6 +2,7 @@ import { DataStore } from 'js-data';
 
 import { GraphQLAdapter } from './js-data-graphql';
 import group from './models/group';
+import user from './models/user';
 
 class ObservableDataStore extends DataStore {
   _subscribeListeners = [];
@@ -41,5 +42,6 @@ const adapter = new GraphQLAdapter({
 store.registerAdapter('graphql', adapter, { default: true });
 
 group(store);
+user(store);
 
 export default store;

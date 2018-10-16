@@ -9,6 +9,14 @@ const group = (store) =>
         name: { type: 'string' },
       },
     },
+    relations: {
+      hasMany: {
+        user: {
+          foreignKey: 'group_id',
+          localField: 'users',
+        },
+      },
+    },
     graphql: {
       findAll: {
         query: (args) => gql`

@@ -12,6 +12,7 @@ class Group extends Component {
       <div>
         <h1>{group ? group.name : 'Unnamed'}</h1>
         <pre>{JSON.stringify(group, null, 2)}</pre>
+        <pre>{JSON.stringify(group.users, null, 2)}</pre>
         <input
           value={group.name}
           onChange={(e) => updateGroup(group.id, { name: e.target.value })}
@@ -24,7 +25,7 @@ class Group extends Component {
 export default withData({
   name: 'group',
   model: async (store, ownProps) =>
-    await store.find('group', ownProps.match.params.id),
+    await store.find('group', ownProps.match.params.id, { with: ['user'] }),
   actions: (store) => ({
     updateGroup: (id, args) => {
       return store.update('group', id, args);
