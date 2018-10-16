@@ -25,7 +25,7 @@ export class GraphQLAdapter extends HttpAdapter {
     if (find == null) {
       return super.find(mapper, query, opts);
     }
-    const args = {};
+    const args = { ...query };
     if (typeof query === 'string' || typeof query === 'number') {
       args.id = query;
     }
