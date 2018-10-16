@@ -1,5 +1,5 @@
 import { Adapter } from 'js-data-adapter';
-import { HttpAdapter } from 'js-data-http/src/index';
+import { HttpAdapter } from 'js-data-http';
 import get from 'lodash/get';
 import { request } from 'graphql-request';
 import { print } from 'graphql';
@@ -23,14 +23,19 @@ export class GraphQLAdapter extends HttpAdapter {
     return [_transform(find.transform, data), {}];
   }
 
-  async findAll(mapper, query, opts) {
+  async _findAll(mapper, query, opts) {
     const findAll = get(mapper, 'graphql.findAll', null);
     if (findAll == null) {
-      return super.findAll(mapper, query, opts);
+      return super._findAll(mapper, query, opts);
     }
+    console.log(mapper, query, opts);
     const args = {};
-    const data = await request(this.graphqlPath, print(findAll.query(args)));
-    return _transform(findAll.transform, data);
+    const data = await request(
+      this.graphqlPath,
+      print(findAll.query(args)),
+      args,
+    );
+    return [_transform(findAll.transform, data), {}];
   }
 
   async create(mapper, props, opts) {

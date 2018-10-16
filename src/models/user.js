@@ -12,7 +12,7 @@ const user = (store) =>
     relations: {
       belongsTo: {
         group: {
-          foreignKey: 'group_id',
+          foreignKey: 'groupId',
           localField: 'group',
         },
       },

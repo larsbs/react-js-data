@@ -12,7 +12,7 @@ const group = (store) =>
     relations: {
       hasMany: {
         user: {
-          foreignKey: 'group_id',
+          foreignKey: 'groupId',
           localField: 'users',
         },
       },
@@ -24,6 +24,9 @@ const group = (store) =>
             groups {
               id
               name
+              users {
+                id
+              }
             }
           }
         `,
@@ -35,10 +38,16 @@ const group = (store) =>
             group(id: $id) {
               id
               name
+              users {
+                id
+              }
             }
           }
         `,
-        transform: (data) => data.group,
+        transform: (data) => ({
+          ...data.group,
+          users: data.group.users.map((u) => u.id),
+        }),
       },
       create: {
         query: (args) => gql`

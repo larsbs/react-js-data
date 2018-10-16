@@ -25,7 +25,7 @@ class Group extends Component {
 export default withData({
   name: 'group',
   model: async (store, ownProps) =>
-    await store.find('group', ownProps.match.params.id, { with: ['user'] }),
+    await store.find('group', ownProps.match.params.id),
   actions: (store) => ({
     updateGroup: (id, args) => {
       return store.update('group', id, args);
