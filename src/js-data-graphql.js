@@ -50,6 +50,10 @@ export class GraphQLAdapter extends HttpAdapter {
     return _transform(create.transform, data);
   }
 
+  async createMany(mapper, records, opts) {
+    return super.createMany(mapper, records, opts);
+  }
+
   async update(mapper, id, props, opts) {
     const update = get(mapper, 'graphql.update', null);
     if (update == null) {
@@ -64,6 +68,14 @@ export class GraphQLAdapter extends HttpAdapter {
     return _transform(update.transform, data);
   }
 
+  async updateMany(mapper, records, opts) {
+    return super.updateMany(mapper, records, opts);
+  }
+
+  async updateAll(mapper, props, query, opts) {
+    return super.updateAll(mapper, props, query, opts);
+  }
+
   async destroy(mapper, id, opts) {
     const destroy = get(mapper, 'graphql.destroy', null);
     if (destroy == null) {
@@ -76,5 +88,9 @@ export class GraphQLAdapter extends HttpAdapter {
       args,
     );
     return _transform(destroy.transform, data);
+  }
+
+  async destroyAll(mapper, query, opts) {
+    return super.destroyAll(mapper, query, opts);
   }
 }
