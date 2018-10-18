@@ -29,7 +29,7 @@ export class GraphQLAdapter extends HttpAdapter {
     if (findAll == null) {
       return super._findAll(mapper, query, opts);
     }
-    const args = { ...query };
+    const args = { ...query, ids: query.relatedItemsIds };
     const data = await request(this.graphqlPath, print(findAll.query(args)), args);
     return [_transform(findAll.transform, data), {}];
   }
@@ -97,7 +97,7 @@ export class GraphQLAdapter extends HttpAdapter {
       criteria['in'] = IDs.filter((id) => id);
     }
     if (records.every((record) => record[def.localField] != null)) {
-      query.relatedIds = records.reduce((memo, record) => {
+      query.relatedItemsIds = records.reduce((memo, record) => {
         const ids = [];
         if (utils.isObject(record[def.localField][0])) {
           // an object like { id: 1 }

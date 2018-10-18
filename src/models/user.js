@@ -20,8 +20,8 @@ const user = (store) =>
     graphql: {
       findAll: {
         query: (args) => gql`
-          query users($relatedIds: [ID]) {
-            users(ids: $relatedIds) {
+          query users($ids: [ID]) {
+            users(ids: $ids) {
               id
               nick
               groupId
