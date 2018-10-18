@@ -24,15 +24,15 @@ export class GraphQLAdapter extends HttpAdapter {
     return [_transform(find.transform, data), {}];
   }
 
-  // async _findAll(mapper, query, opts) {
-  //   const findAll = get(mapper, 'graphql.findAll', null);
-  //   if (findAll == null) {
-  //     return super._findAll(mapper, query, opts);
-  //   }
-  //   const args = { ...query, ids: query.relatedItemsIds };
-  //   const data = await request(this.graphqlPath, print(findAll.query(args)), args);
-  //   return [_transform(findAll.transform, data), {}];
-  // }
+  async _findAll(mapper, query, opts) {
+    const findAll = get(mapper, 'graphql.findAll', null);
+    if (findAll == null) {
+      return super._findAll(mapper, query, opts);
+    }
+    const args = { ...query, ids: query.relatedItemsIds };
+    const data = await request(this.graphqlPath, print(findAll.query(args)), args);
+    return [_transform(findAll.transform, data), {}];
+  }
 
   async create(mapper, props, opts) {
     const create = get(mapper, 'graphql.create', null);

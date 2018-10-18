@@ -22,8 +22,10 @@ class User extends Component {
 
 export default withData({
   name: 'user',
-  model: async (store, ownProps) =>
-    await store.find('user', ownProps.match.params.id, { with: ['group'] }),
+  model: async (store, ownProps) => {
+    await store.find('group', '1', { with: ['user'] });
+    return await store.find('user', ownProps.match.params.id, { with: ['group'] });
+  },
   actions: (store) => ({
     updateUser: (id, args) => {
       return store.update('user', id, args);
