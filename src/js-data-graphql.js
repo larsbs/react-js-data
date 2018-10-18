@@ -24,15 +24,15 @@ export class GraphQLAdapter extends HttpAdapter {
     return [_transform(find.transform, data), {}];
   }
 
-  async _findAll(mapper, query, opts) {
-    const findAll = get(mapper, 'graphql.findAll', null);
-    if (findAll == null) {
-      return super._findAll(mapper, query, opts);
-    }
-    const args = { ...query, ids: query.relatedItemsIds };
-    const data = await request(this.graphqlPath, print(findAll.query(args)), args);
-    return [_transform(findAll.transform, data), {}];
-  }
+  // async _findAll(mapper, query, opts) {
+  //   const findAll = get(mapper, 'graphql.findAll', null);
+  //   if (findAll == null) {
+  //     return super._findAll(mapper, query, opts);
+  //   }
+  //   const args = { ...query, ids: query.relatedItemsIds };
+  //   const data = await request(this.graphqlPath, print(findAll.query(args)), args);
+  //   return [_transform(findAll.transform, data), {}];
+  // }
 
   async create(mapper, props, opts) {
     const create = get(mapper, 'graphql.create', null);
@@ -125,5 +125,42 @@ export class GraphQLAdapter extends HttpAdapter {
         def.setLocalField(record, attached);
       });
     });
+  }
+
+  async loadBelongsTo(mapper, def, records, __opts) {
+    const relationDef = def.getRelation();
+    if (utils.isObject(records) && !utils.isArray(records)) {
+      const record = records;
+      return this.find(relationDef, this.makeBelongsToForeignKey(mapper, def, record), __opts).then(
+        (relatedItem) => {
+          const inverseDef = def.getInverse(mapper);
+          delete relatedItem[inverseDef.localField];
+          def.setLocalField(record, relatedItem);
+        },
+      );
+    } else {
+      const keys = records
+        .map((record) => this.makeBelongsToForeignKey(mapper, def, record))
+        .filter((key) => key);
+      return this.findAll(
+        relationDef,
+        {
+          where: {
+            [relationDef.idAttribute]: {
+              in: keys,
+            },
+          },
+        },
+        __opts,
+      ).then((relatedItems) => {
+        records.forEach((record) => {
+          relatedItems.forEach((relatedItem) => {
+            if (relatedItem[relationDef.idAttribute] === record[def.foreignKey]) {
+              def.setLocalField(record, relatedItem);
+            }
+          });
+        });
+      });
+    }
   }
 }

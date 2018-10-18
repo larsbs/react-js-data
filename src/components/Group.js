@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withData } from './react-js-data';
+import { withData } from '../react-js-data';
 
 class Group extends Component {
   render() {
