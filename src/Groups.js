@@ -27,14 +27,10 @@ class Groups extends Component {
             ))}
         </ul>
         <pre>{JSON.stringify(groups, null, 2)}</pre>
+        <pre>{JSON.stringify(groups[0].users, null, 2)}</pre>
         <button onClick={() => createGroup({ name })}>Create Group</button>
-        <input
-          value={name}
-          onChange={(e) => this.setState({ name: e.target.value })}
-        />
-        <button onClick={() => updateGroup(groups[0].id, { name })}>
-          Update Group
-        </button>
+        <input value={name} onChange={(e) => this.setState({ name: e.target.value })} />
+        <button onClick={() => updateGroup(groups[0].id, { name })}>Update Group</button>
         <button onClick={() => deleteGroup(groups[0].id)}>Delete Group</button>
       </div>
     );
@@ -43,7 +39,7 @@ class Groups extends Component {
 
 export default withData({
   name: 'groups',
-  model: async (store) => await store.findAll('group'),
+  model: async (store) => await store.findAll('group', {}, { with: ['user'] }),
   actions: (store) => ({
     createGroup: (args) => {
       const newGroup = store.createRecord('group', args);

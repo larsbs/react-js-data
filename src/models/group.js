@@ -24,9 +24,7 @@ const group = (store) =>
             groups {
               id
               name
-              users {
-                id
-              }
+              users: usersIds
             }
           }
         `,
@@ -38,16 +36,11 @@ const group = (store) =>
             group(id: $id) {
               id
               name
-              users {
-                id
-              }
+              users: usersIds
             }
           }
         `,
-        transform: (data) => ({
-          ...data.group,
-          users: data.group.users.map((u) => u.id),
-        }),
+        transform: (data) => data.group,
       },
       create: {
         query: (args) => gql`
