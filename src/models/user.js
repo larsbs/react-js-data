@@ -12,10 +12,18 @@ const user = (store) =>
     relations: {
       belongsTo: {
         group: {
+          parent: true,
           foreignKey: 'groupId',
           localField: 'group',
         },
       },
+      // hasMany: {
+      //   user: {
+      //     foreignKey: 'userIds',
+      //     localField: 'friends',
+      //     localKeys: 'userIds',
+      //   },
+      // },
     },
     graphql: {
       findAll: {
